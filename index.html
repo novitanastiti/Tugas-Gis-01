@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      #map { height: 500px; width: 100%; }
+    </style>
+  </head>
+  <body>
+<p>NAMA : NOVITA NASTITI <br> NIM : 2157201329 <br> PROGAM STUDI : SISTEM INFORMASI <br> LOKASI : LOKASI SAYA SAAT INI <br> HASIL PETA DARI LEAFLET</p>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Inisialisasi peta tanpa lokasi awal
+      var map = L.map('map').setView([0, 0], 13);
+
+      // Tambahkan tile layer ke peta
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Periksa apakah Geolocation tersedia di browser
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            // Ambil koordinat lokasi pengguna
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            // Pindahkan tampilan peta ke lokasi pengguna
+            map.setView([lat, lon], 15);
+
+            // Tambahkan marker ke lokasi pengguna
+            var marker = L.marker([lat, lon]).addTo(map)
+              .bindPopup('Lokasi Saya saat ini')
+              .openPopup();
+          },
+          function(error) {
+            alert('Gagal mendapatkan lokasi: ' + error.message);
+          }
+        );
+      } else {
+        alert('Geolocation tidak didukung oleh browser Anda.');
+      }
+    </script>
+  </body>
+</html>
